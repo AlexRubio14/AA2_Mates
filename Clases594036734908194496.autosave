@@ -1,0 +1,91 @@
+// 1 muelle que une a 2 particulas
+// una que está fija. La otra tiene gravedad, friccion y el muelle (3 fuerzas)
+//necesitamos un solver
+// variables y objetos
+
+void InitPart()
+  {
+    malla = new Particulas[10][10];
+    xPart = 0;
+    yPart = 0;
+    for (int i = 0; i < 10; i++)
+    {
+        for(int j = 0; j < 10; j++)
+        {
+            malla.Particulas(xPart, yPart);
+            xPart++;
+        }
+        xPart = 0;
+        yPart++;
+    }
+  }
+
+// Clases
+class Particulas{
+  // Atributos
+  PVector posicion;
+  PVector velocidad;
+  float masa, tamanyo;
+  // Constructor
+  Particulas(float x, float y){
+    posicion = new PVector(x, y);
+    velocidad = new PVector(0.0, 0.0);
+    masa = 10.0f;
+    tamanyo = 10.0f;
+  }
+
+  // Metodos
+  void InitPart()
+  {
+    
+  }
+  void Calcula_m()
+  {
+    //Solver --> Euler
+    // 1 - Limpiar las fuerzas
+    // 2 - Calcular / añadir las fuerzas
+    // 3 - Calcular aceleracion
+    // 4 - Calcular la velocidad
+    // 5 - Calcular posicion
+    PVector fuerza = new PVector(0.0 , 0.0);
+    PVector aceleracion = new PVector(0.0 , 0.0);
+    float deltaT = 0.04;
+    //Fuerzas: gravedad, friccion, muelle
+    fuerza.x = 0.0;
+    fuerza.y = 9.8;
+    fuerza.x += -kd * velocidad.x;
+    fuerza.y += -kd * velocidad.y;
+    fuerza.x += -km * ((posicion.x - anclaje.x) - lm);
+    fuerza.y += -km * ((posicion.y - anclaje.y) - lm);
+    // Ahora lo de siempre
+    aceleracion.x = fuerza.x / masa;
+    aceleracion.y = fuerza.y / masa;
+    velocidad.x += aceleracion.x * deltaT;
+    velocidad.y += aceleracion.y * deltaT;
+    posicion.x += velocidad.x * deltaT;
+    posicion.y += velocidad.y * deltaT;
+  }
+  void Pinta_m()
+  {
+    fill (255, 255, 0);
+    ellipse(posicion.x, posicion.y, tamanyo, tamanyo);
+  }
+
+}
+
+class Muelles
+{
+    //Atributos
+    PVector[] posicion;
+    float kd, longitud;
+
+    //Constructor
+    Muelles(PVector p, float l)
+    {
+        posicion = new PVector[10];
+        kd = 0.4;
+        longitud = l;
+    }
+    //Metodos
+}
+// Eventos

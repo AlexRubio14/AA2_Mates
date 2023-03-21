@@ -1,0 +1,73 @@
+// 1 muelle que une a 2 particulas
+// una que está fija. La otra tiene gravedad, friccion y el muelle (3 fuerzas)
+//necesitamos un solver
+// variables y objetos
+
+
+// Clases
+class Particula{
+  // Atributos
+  PVector posicion;
+  PVector velocidad;
+  float masa, tamanyo;
+  // Constructor
+  Particula(PVector p, PVector v, float m, float t){
+    posicion = new PVector(p.x, p.y);
+    velocidad = new PVector(v.x, v.y);
+    masa = m;
+    tamanyo = t;
+    kd = 0.4;
+   
+  }
+
+  // Metodos
+  void calcula_m()
+  {
+    //Solver --> Euler
+    // 1 - Limpiar las fuerzas
+    // 2 - Calcular / añadir las fuerzas
+    // 3 - Calcular aceleracion
+    // 4 - Calcular la velocidad
+    // 5 - Calcular posicion
+    PVector fuerza = new PVector(0.0 , 0.0);
+    PVector aceleracion = new PVector(0.0 , 0.0);
+    float deltaT = 0.04;
+    //Fuerzas: gravedad, friccion, muelle
+    fuerza.x = 0.0;
+    fuerza.y = 9.8;
+    fuerza.x += -kd * velocidad.x;
+    fuerza.y += -kd * velocidad.y;
+    fuerza.x += -km * ((posicion.x - anclaje.x) - lm);
+    fuerza.y += -km * ((posicion.y - anclaje.y) - lm);
+    // Ahora lo de siempre
+    aceleracion.x = fuerza.x / masa;
+    aceleracion.y = fuerza.y / masa;
+    velocidad.x += aceleracion.x * deltaT;
+    velocidad.y += aceleracion.y * deltaT;
+    posicion.x += velocidad.x * deltaT;
+    posicion.y += velocidad.y * deltaT;
+  }
+  void pinta_m()
+  {
+    fill (255, 255, 0);
+    ellipse(posicion.x, posicion.y, tamanyo, tamanyo);
+  }
+
+}
+
+Muelle[] muelles;
+
+class Muelles
+{
+    //Atributos
+    PVector[] posicion;
+    float kd, longitud;
+
+    //Constructor
+    Muelles(PVector p, float l)
+    {
+        posicion = new PVector[] (p.x, p.y)
+    }
+    //Metodos
+}
+// Eventos
